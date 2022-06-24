@@ -1,0 +1,8 @@
+icon=$(cat ~/mimkdir/data/folderIcons.json | jq .$1 | sed 's/^.*"\(.*\)".*$/\1/')
+
+if [ "$icon" = "null" ]; then
+    mkdir ./$1
+else 
+    eval "rsvg-convert -h 120 ~/mimkdir/icons/$icon.svg > ~/mimkdir/images/$icon.png"
+    mkdir ./$1 && fileicon -q set ./$1 ~/mimkdir/images/$icon.png
+fi
