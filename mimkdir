@@ -1,3 +1,4 @@
+#!/bin/sh
 TOP_DIR="~/material-iconic-commands"
 DATA_DIR="$TOP_DIR/data"
 ICONS_DIR="$TOP_DIR/icons"
