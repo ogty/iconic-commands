@@ -18,12 +18,10 @@
 ```zsh
 $ cd ~/
 $ git clone https://github.com/ogty/material-iconic-commands
-$ cd material-iconic-commands
-$ source setup.sh
+$ source ~/material-iconic-commands/setup.sh
 ```
 
-> **Note**
-> 
+> **Note**  
 > If brew and npm are not installed, they will be installed automatically.  
 > The external commands used in this process are also installed at the same time.  
 > You may also be asked to enter a password to change permissions.
