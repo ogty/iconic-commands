@@ -1,6 +1,6 @@
-icon=$(cat ~/mimkdir/data/folderIcons.json | jq .$1 | sed 's/^.*"\(.*\)".*$/\1/')
+icon=$(cat ~/mimkdir/data/folderIcons.json | awk -f ~/mimkdir/main.awk -v target="$1")
 
-if [ "$icon" = "null" ]; then
+if [ -z $icon ]; then
     mkdir ./$1
 else 
     eval "rsvg-convert -h 120 ~/mimkdir/icons/$icon.svg > ~/mimkdir/images/$icon.png"
