@@ -10,6 +10,7 @@ if [ $? -eq 127 ]; then
   eval npm install -g fileicon
 fi
 
-currentDirectory=$(pwd)
+currentDirectory=$(cd $(dirname $0);pwd)
 echo 'export PATH="$PATH:'$currentDirectory\" >> ~/.zshrc
-sudo chmod 755 mimkdir mitouch
+source ~/.zshrc
+sudo chmod 755 $currentDirectory/mimkdir $currentDirectory/mitouch
