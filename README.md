@@ -1,6 +1,12 @@
-# Material Iconic Commands
+<h1 align="center">Material Iconic Commands</h1>
 
-The icon data is used from [vscode-material-icon-theme](https://github.com/PKief/vscode-material-icon-theme).
+<p align="center">
+  The icon data is used from <a href="https://github.com/PKief/vscode-material-icon-theme">vscode-material-icon-theme</a>.
+</p>
+
+<div align="center">
+ <img src="./sample.png" alt="sample" width="50%" />
+</div>
 
 ## External Commands Used
 
