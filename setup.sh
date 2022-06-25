@@ -1,11 +1,9 @@
-eval brew --version
-if [ $? -eq 127 ]; then
+if [ which brew > /dev/null ]; then else
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   eval brew install librsvg
 fi
 
-eval npm --version
-if [ $? -eq 127 ]; then
+if [ which npm > /dev/null ]; then else
   brew install npm
   eval npm install -g fileicon
 fi
