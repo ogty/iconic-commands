@@ -10,8 +10,8 @@
 
 ## External Commands Used
 
-- librsvg
-- fileicon
+- [librsvg](https://wiki.gnome.org/Projects/LibRsvg)
+- [fileicon](https://www.npmjs.com/package/fileicon)
 
 ## Setup
 
