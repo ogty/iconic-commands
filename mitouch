@@ -1,0 +1,28 @@
+fileName=$(echo $1 | awk -F . '{print $1}'| tr '[:upper:]' '[:lower:]')
+fileExtension=$(echo $1 | awk -F . '{print $2}')
+
+if [ -z "$fileExtension" ]; then
+    icon=$(cat ~/mimkdir/data/fileIcons.json | awk -f ~/mimkdir/main.awk -v target="$fileName")
+    if [ -z "$icon" ]; then
+        touch ./$1
+    else
+        eval "rsvg-convert -h 120 ~/mimkdir/icons/$icon.svg > ~/mimkdir/images/$icon.png"
+        touch ./$1 && fileicon -q set ./$1 ~/mimkdir/images/$icon.png
+    fi
+else
+    icon=$(cat ~/mimkdir/data/fileIcons.json | awk -f ~/mimkdir/main.awk -v target="$fileName.$fileExtension")
+    if [ -n "$icon" ]; then
+        eval "rsvg-convert -h 120 ~/mimkdir/icons/$icon.svg > ~/mimkdir/images/$icon.png"
+        touch ./$1 && fileicon -q set ./$1 ~/mimkdir/images/$icon.png
+        exit 0
+    fi
+
+    icon=$(cat ~/mimkdir/data/fileIcons.json | awk -f ~/mimkdir/main.awk -v target="$fileExtension")
+    if [ -n "$icon" ]; then
+        eval "rsvg-convert -h 120 ~/mimkdir/icons/$icon.svg > ~/mimkdir/images/$icon.png"
+        touch ./$1 && fileicon -q set ./$1 ~/mimkdir/images/$icon.png
+        exit 0
+    fi
+
+    touch ./$1
+fi
