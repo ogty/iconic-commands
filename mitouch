@@ -12,20 +12,20 @@ if [ -z "$fileExtension" ]; then
     if [ -z "$icon" ]; then
         touch ./$1
     else
-        eval "rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png"
+        rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
         touch ./$1 && fileicon -q set ./$1 $IMAGES_DIR/$icon.png
     fi
 else
     icon=$(cat $DATA_DIR/fileIcons.json | awk -f $TOP_DIR/main.awk -v target="$fileName.$fileExtension")
     if [ -n "$icon" ]; then
-        eval "rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png"
+        rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
         touch ./$1 && fileicon -q set ./$1 $IMAGES_DIR/$icon.png
         exit 0
     fi
 
     icon=$(cat $DATA_DIR/fileIcons.json | awk -f $TOP_DIR/main.awk -v target="$fileExtension")
     if [ -n "$icon" ]; then
-        eval "rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png"
+        rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
         touch ./$1 && fileicon -q set ./$1 $IMAGES_DIR/$icon.png
         exit 0
     fi

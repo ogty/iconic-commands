@@ -9,6 +9,6 @@ icon=$(cat $DATA_DIR/folderIcons.json | awk -f $TOP_DIR/main.awk -v target="$1")
 if [ -z $icon ]; then
     mkdir ./$1
 else 
-    eval "rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png"
+    rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
     mkdir ./$1 && fileicon -q set ./$1 $IMAGES_DIR/$icon.png
 fi
