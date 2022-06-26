@@ -1,16 +1,16 @@
-if [ which brew > /dev/null ]; then else
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if ! which brew > /dev/null; then
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-if [ which rsvg-convert > /dev/null ]; then else
-  brew install librsvg
-fi
-
-if [ which npm > /dev/null ]; then else
+if ! which npm > /dev/null; then
   brew install npm
 fi
 
-if [ which fileicon > /dev/null ]; then else
+if ! which librsvg > /dev/null; then
+  brew install librsvg
+fi
+
+if ! which fileicon > /dev/null; then
   npm install -g fileicon
 fi
 
