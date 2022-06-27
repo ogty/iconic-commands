@@ -28,7 +28,16 @@ $ source ~/material-iconic-commands/setup.sh
 
 ## Usage
 
-```
+```zsh
 $ mimkdir <directory-name>
+$ mimkdir <directory-name>@<icon> # Used when the <directory-name> does not match the icon correspondence
 $ mitouch <file-name>
+```
+
+## Examples
+
+```zsh
+$ mimkdir images
+$ mimkdir fundamentals_of_java@java
+$ mitouch README.md
 ```
