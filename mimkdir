@@ -4,7 +4,12 @@ DATA_DIR="$TOP_DIR/data"
 ICONS_DIR="$TOP_DIR/icons"
 IMAGES_DIR="$TOP_DIR/images"
 
-icon=$(cat $DATA_DIR/folderIcons.json | awk -f $TOP_DIR/main.awk -v target="$1")
+if [[ "$1" == *@* ]]; then
+    type=$(echo $1 | cut -d '@' -f 2)
+    icon=$(cat $DATA_DIR/folderIcons.json | awk -f $TOP_DIR/main.awk -v target="$type")
+else
+    icon=$(cat $DATA_DIR/folderIcons.json | awk -f $TOP_DIR/main.awk -v target="$1")
+fi
 
 if [ -z $icon ]; then
     mkdir ./$1
