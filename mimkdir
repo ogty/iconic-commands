@@ -1,4 +1,5 @@
 #!/bin/sh
+
 TOP_DIR=$(cd $(dirname $0);pwd)
 DATA_DIR="$TOP_DIR/data"
 ICONS_DIR="$TOP_DIR/icons"
