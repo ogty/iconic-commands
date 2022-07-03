@@ -10,9 +10,9 @@
 
 ## Feature
 
-- [x] Material iconic file creation
-- [x] Material iconic directory creation
-- [ ] Material iconic file/directory conversion
+- [x] Creation of material iconic files
+- [x] Creation of material iconic directories
+- [ ] Conversion to material iconic files/directories
 - [ ] Creation of original icons
 - [ ] Support for free icons
 - [ ] Replace all existing folders and files with new icons
