@@ -8,6 +8,15 @@
  <img src="./sample.png" alt="sample" width="50%" />
 </div>
 
+## Feature
+
+- [x] Material iconic file creation
+- [x] Material iconic directory creation
+- [ ] Material iconic file/directory conversion
+- [ ] Creation of original icons
+- [ ] Support for free icons
+- [ ] Replace all existing folders and files with new icons
+
 ## External Commands Used
 
 - [librsvg](https://wiki.gnome.org/Projects/LibRsvg)
