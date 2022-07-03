@@ -7,8 +7,10 @@ IMAGES_DIR="$TOP_DIR/images"
 
 if [[ "$1" == *@* ]]; then
     type=$(echo $1 | cut -d '@' -f 2)
+    name=$(echo $1 | cut -d '@' -f 1)
     icon=$(cat $DATA_DIR/folderIcons.json | awk -f $TOP_DIR/main.awk -v target="$type")
 else
+    name=$1
     icon=$(cat $DATA_DIR/folderIcons.json | awk -f $TOP_DIR/main.awk -v target="$1")
 fi
 
@@ -16,5 +18,5 @@ if [ -z $icon ]; then
     mkdir ./$1
 else 
     rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
-    mkdir ./$1 && fileicon -q set ./$1 $IMAGES_DIR/$icon.png
+    mkdir ./$name && fileicon -q set ./$name $IMAGES_DIR/$icon.png
 fi
