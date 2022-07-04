@@ -1,12 +1,20 @@
 #!/bin/sh
 
+# =====================================================================================
+#                              Material Iconic Commands
+# =====================================================================================
+#
 # Description:
 #     A command that allows you to change the icons of files and
 #     directories using the VSCode Material Icon Theme icon theme.
 #     You can also set your own icons.
+#     The icon data is used from "vscode-material-icon-theme".
+#     
+#     Marketplace:
+#         https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme
 #
 # Usage:
-#     $ mit [options] <command> [<arguments>]
+#     $ mic [options] <command> [<arguments>]
 #
 # Commands:
 #     file <file-name[@<type>]>:
@@ -30,22 +38,31 @@
 #     -h, --help:
 #             Show usage
 #
+# Information:
+#     If you have installed the Material Icon Theme as a Visual Studio Code extension,
+#     you can remove the "icons" directory from this repository.
+#
+# Note:
+#     If brew and npm are not installed, they will be installed automatically.
+#     The external commands used in this process are also installed at the same time.
+#     You may also be asked to enter a password to change permissions.
+#
 # Example:
-#    $ mit file command@console
-#    $ mit dir fundamentals_of_java@java
-#    $ mit conv foo@tmp
-#    $ mit make your-service-name your-service-log.svg
-#    $ mit make gopher https://cdn.worldvectorlogo.com/logos/gopher.svg
+#     $ mic file command@sh
+#     $ mic dir fundamentals_of_java@java
+#     $ mic conv foo@tmp
+#     $ mic make your-service-name your-service-log.svg
+#     $ mic make gopher https://cdn.worldvectorlogo.com/logos/gopher.svg
 #
 # TODO:
-#    - [x] dir
-#    - [x] file
-#    - [ ] make
-#    - [ ] conv
-#    - [ ] replace
-#    - [ ] -a, --all
-#    - [ ] -l, --list
-#    - [x] -h, --help
+#     - [x] dir
+#     - [x] file
+#     - [ ] make
+#     - [ ] conv
+#     - [ ] replace
+#     - [ ] -a, --all
+#     - [ ] -l, --list
+#     - [x] -h, --help
 
 TOP_DIR=$(cd $(dirname $0);pwd)
 DATA_DIR="$TOP_DIR/data"
@@ -91,9 +108,9 @@ function all_replacer(before, after, data) {
 '
 
 help() {
-    echo "\n\t\tmit: Material Icon Theme Icon Changer\n"
+    echo "\n\t\tmic: Material Icon Theme Icon Changer\n"
     echo "Usage:"
-    echo "\tmit [options] <command> [<arguments>]\n"
+    echo "\tmic [options] <command> [<arguments>]\n"
     echo "Commands:"
     echo "\tfile <file-name[@<type>]>:"
     echo "\t\tChange the icon of the specified file"
@@ -143,13 +160,16 @@ case $1 in
 
         file=$2
         if [[ "$file" == *@* ]]; then
+            name=$(echo $file | cut -d '@' -f 1)
             type=$(echo $file | cut -d '@' -f 2)
             icon=$(cat $DATA_DIR/fileIcons.json | awk -v target="$type" "$main")
             if [ -z "$icon" ]; then
                 touch ./$file
             else
-                rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
-                touch ./$file && fileicon -q set ./$file $IMAGES_DIR/$icon.png
+                if [ ! -f $IMAGES_DIR/$icon.png ]; then
+                    rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+                fi
+                touch ./$name && fileicon -q set ./$name $IMAGES_DIR/$icon.png
             fi
             exit 0
         else
@@ -162,13 +182,17 @@ case $1 in
             if [ -z "$icon" ]; then
                 touch ./$file
             else
-                rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+                if [ ! -f $IMAGES_DIR/$icon.png ]; then
+                    rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+                fi
                 touch ./$file && fileicon -q set ./$file $IMAGES_DIR/$icon.png
             fi
         else
             icon=$(cat $DATA_DIR/fileIcons.json | awk -v target="$fileName.$fileExtension" "$main")
             if [ -n "$icon" ]; then
-                rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+                if [ ! -f $IMAGES_DIR/$icon.png ]; then
+                    rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+                fi
                 touch ./$file && fileicon -q set ./$file $IMAGES_DIR/$icon.png
                 exit 0
             fi
@@ -214,8 +238,15 @@ case $1 in
             echo "Error: make command requires a type name and an icon path or url"
             exit 1
         fi
+
         type=$2
         icon=$3
+        if [[ "$icon" == http* ]]; then
+            curl -s -o $IMAGES_DIR $icon
+        else
+            rsvg-convert -h 120 $icon > $IMAGES_DIR/$type.png
+        fi
+
         if [ -d $type ]; then
             echo "Error: type name already exists"
             exit 1

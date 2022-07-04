@@ -39,18 +39,32 @@ $ source ~/material-iconic-commands/setup.sh
 > The external commands used in this process are also installed at the same time.  
 > You may also be asked to enter a password to change permissions.
 
-## Usage
+## Usage:
 
 ```zsh
-$ mimkdir <directory-name>
-$ mimkdir <directory-name>@<icon> # Used when the <directory-name> does not match the icon correspondence
-$ mitouch <file-name>
+$ mic [options] <command> [<arguments>]
 ```
 
-## Examples
+## Commands
+
+- `file <file-name[@<type>]>`: Change the icon of the specified file
+- `dir <directory-name[@<type>]>`: Change the icon of the specified directory
+- `make <type-name> <icon-path | icon-url>`: Make your own file icon
+- `conv <directory/file-name>@<type>`: Converte file or directory icon
+- `replace <directory-name>`: Replaces all files and directories, including the specified directory, with the appropriate icon from the extension or name.
+
+## Options:
+
+- `-a, --all`: Can be used with file, dir and make commands
+- `-l, --list`: Show available icons
+- `-h, --help`: Show usage
+
+## Example
 
 ```zsh
-$ mimkdir images
-$ mimkdir fundamentals_of_java@java
-$ mitouch README.md
+$ mic file command@sh
+$ mic dir fundamentals_of_java@java
+$ mic conv foo@tmp
+$ mic make your-service-name your-service-log.svg
+$ mic make gopher https://cdn.worldvectorlogo.com/logos/gopher.svg
 ```

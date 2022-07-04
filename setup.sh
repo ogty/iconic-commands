@@ -17,4 +17,4 @@ fi
 currentDirectory=$(cd $(dirname $0);pwd)
 echo 'export PATH="$PATH:'$currentDirectory\" >> ~/.zshrc
 source ~/.zshrc
-sudo chmod 755 $currentDirectory/mimkdir $currentDirectory/mitouch
+sudo chmod 755 $currentDirectory/mic
