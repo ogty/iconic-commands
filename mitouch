@@ -26,7 +26,9 @@ else
 
     icon=$(cat $DATA_DIR/fileIcons.json | awk -f $TOP_DIR/main.awk -v target="$fileExtension")
     if [ -n "$icon" ]; then
-        rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+        if [ ! -f $IMAGES_DIR/$icon.png ]; then
+            rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+        fi
         touch ./$1 && fileicon -q set ./$1 $IMAGES_DIR/$icon.png
         exit 0
     fi

@@ -16,7 +16,9 @@ fi
 
 if [ -z $icon ]; then
     mkdir ./$1
-else 
-    rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+else
+    if [ ! -f $IMAGES_DIR/$icon.png ]; then
+        rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+    fi
     mkdir ./$name && fileicon -q set ./$name $IMAGES_DIR/$icon.png
 fi
