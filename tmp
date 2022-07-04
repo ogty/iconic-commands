@@ -39,7 +39,7 @@
 #
 # TODO:
 #    - [x] dir
-#    - [ ] file
+#    - [x] file
 #    - [ ] make
 #    - [ ] conv
 #    - [ ] replace
@@ -141,30 +141,47 @@ case $1 in
             exit 1
         fi
 
-        fileName=
-
         file=$2
         if [[ "$file" == *@* ]]; then
             type=$(echo $file | cut -d '@' -f 2)
-            name=$(echo $file | cut -d '@' -f 1)
+            icon=$(cat $DATA_DIR/fileIcons.json | awk -v target="$type" "$main")
+            if [ -z "$icon" ]; then
+                touch ./$file
+            else
+                rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+                touch ./$file && fileicon -q set ./$file $IMAGES_DIR/$icon.png
+            fi
+            exit 0
         else
-            name=$file
+            fileName=$(echo $file | awk -F . '{print $1}'| tr '[:upper:]' '[:lower:]')
+            fileExtension=$(echo $file | awk -F . '{print $2}')
         fi
-        icon=$(cat $DATA_DIR/folderIcons.json | awk -v target="$type" "$main")
-        if [ -z $icon ]; then
-            echo "Error: icon not found"
-            exit 1
-        fi
-        if [ ! -f $IMAGES_DIR/$icon.png ]; then
-            rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
-        fi
-        if [ -d $name ]; then
-            mv $name $name.bak
-            mkdir $name
-            cp $IMAGES_DIR/$icon.png $name
-            mv $name.bak $name
+
+        if [ -z "$fileExtension" ]; then
+            icon=$(cat $DATA_DIR/fileIcons.json | awk -v target="$fileName" "$main")
+            if [ -z "$icon" ]; then
+                touch ./$file
+            else
+                rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+                touch ./$file && fileicon -q set ./$file $IMAGES_DIR/$icon.png
+            fi
         else
-            cp $IMAGES_DIR/$icon.png $name
+            icon=$(cat $DATA_DIR/fileIcons.json | awk -v target="$fileName.$fileExtension" "$main")
+            if [ -n "$icon" ]; then
+                rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+                touch ./$file && fileicon -q set ./$file $IMAGES_DIR/$icon.png
+                exit 0
+            fi
+
+            icon=$(cat $DATA_DIR/fileIcons.json | awk -v target="$fileExtension" "$main")
+            if [ -n "$icon" ]; then
+                if [ ! -f $IMAGES_DIR/$icon.png ]; then
+                    rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+                fi
+                touch ./$file && fileicon -q set ./$file $IMAGES_DIR/$icon.png
+                exit 0
+            fi
+            touch ./$file
         fi
         ;;
     dir)
