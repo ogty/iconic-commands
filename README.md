@@ -12,7 +12,7 @@
 
 - [x] Creation of material iconic files
 - [x] Creation of material iconic directories
-- [ ] Conversion to material iconic files/directories
+- [x] Conversion to material iconic files/directories
 - [ ] Creation of original icons
 - [ ] Support for free icons
 - [ ] Replace all existing folders and files with new icons
