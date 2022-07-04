@@ -66,5 +66,5 @@ $ mic file command@sh
 $ mic dir fundamentals_of_java@java
 $ mic conv foo@tmp
 $ mic make your-service-name your-service-logo.svg
-$ mic make gopher https://cdn.worldvectorlogo.com/logos/gopher.svg
+$ mic make gopher https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg
 ```
