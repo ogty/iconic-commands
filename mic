@@ -280,7 +280,13 @@ case $1 in
         else
             name=$file
         fi
-        icon=$(cat $DATA_DIR/folderIcons.json | awk -v target="$type" "$main")
+
+        if [ -d "$name" ]; then
+            icon=$(cat $DATA_DIR/folderIcons.json | awk -v target="$type" "$main")
+        else
+            icon=$(cat $DATA_DIR/fileIcons.json | awk -v target="$type" "$main")
+        fi
+
         if [ -z $icon ]; then
             echo "Error: icon not found"
             exit 1
