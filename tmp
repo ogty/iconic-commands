@@ -6,7 +6,7 @@
 #     You can also set your own icons.
 #
 # Usage:
-#     $ mit <option>
+#     $ mit [options] <command> [<arguments>]
 #
 # Commands:
 #     file <file-name[@<type>]>:
@@ -15,23 +15,20 @@
 #             Change the icon of the specified directory
 #     make <type-name> <icon-path | icon-url>:
 #             Make your own file icon
-#     conv <directory-name | file-name>@<type>:
+#     conv <directory/file-name>@<type>:
 #             Converte file or directory icon
-#     TODO:
 #     replace <directory-name>:
 #             Replaces all files and directories, 
 #             including the specified directory, 
 #             with the appropriate icon from the extension or name.
 #     
 # Options:
-#     TODO:
 #     -a, --all:
 #             Can be used with file, dir and make commands
 #     -l, --list:
 #             Show available icons
 #     -h, --help:
 #             Show usage
-#     
 #
 # Example:
 #    $ mit file command@console
@@ -40,24 +37,28 @@
 #    $ mit make your-service-name your-service-log.svg
 #    $ mit make gopher https://cdn.worldvectorlogo.com/logos/gopher.svg
 #
-# Note:
-# 
+# TODO:
+#    - [x] dir
+#    - [ ] file
+#    - [ ] make
+#    - [ ] conv
+#    - [ ] replace
+#    - [ ] -a, --all
+#    - [ ] -l, --list
+#    - [x] -h, --help
 
-helpMessage() {
-    echo "Usage: mit <option>"
-    echo "Commands:"
-    echo "    file <file-name[@<type>]>: Change the icon of the specified file"
-    echo "    dir <directory-name[@<type>]>: Change the icon of the specified directory"
-    echo "    make <type-name> <icon-path | icon-url>: Make your own file icon"
-    echo "    conv <directory-name | file-name>@<type>: Converte file or directory icon"
-    echo "    replace <directory-name>: Replaces all files and directories, including the specified directory, with the appropriate icon from the extension or name."
-    echo "Options:"
-    echo "    -a, --all: Can be used with file, dir and make commands"
-    echo "    -l, --list: Show available icons"
-    echo "    -h, --help: Show usage"
-}
+TOP_DIR=$(cd $(dirname $0);pwd)
+DATA_DIR="$TOP_DIR/data"
+IMAGES_DIR="$TOP_DIR/images"
+VSCODE_EXTENSIONS_DIR="$HOME/.vscode/extensions"
 
-jq='
+if [ ! -d $VSCODE_EXTENSIONS_DIR/pkief.material-icon-theme-*/icons ]; then
+    ICONS_DIR="$TOP_DIR/icons"
+else
+    ICONS_DIR="$VSCODE_EXTENSIONS_DIR/pkief.material-icon-theme-*/icons"
+fi
+
+main='
 BEGIN {
     FS = ":";
 }
@@ -89,97 +90,196 @@ function all_replacer(before, after, data) {
 }
 '
 
-# commands processing
+help() {
+    echo "\n\t\tmit: Material Icon Theme Icon Changer\n"
+    echo "Usage:"
+    echo "\tmit [options] <command> [<arguments>]\n"
+    echo "Commands:"
+    echo "\tfile <file-name[@<type>]>:"
+    echo "\t\tChange the icon of the specified file"
+    echo "\tdir <directory-name[@<type>]>:"
+    echo "\t\tChange the icon of the specified directory"
+    echo "\tmake <type-name> <icon-path | icon-url>:"
+    echo "\t\tMake your own file icon"
+    echo "\tconv <directory/file-name>@<type>:"
+    echo "\t\tConverte file or directory icon"
+    echo "\treplace <directory-name>:"
+    echo "\t\tReplaces all files and directories, including the specified directory,"
+    echo "\t\twith the appropriate icon from the extension or name.\n"
+    echo "Options:"
+    echo "\t-a, --all:"
+    echo "\t\tCan be used with file, dir and make commands"
+    echo "\t-l, --list:"
+    echo "\t\tShow available icons"
+    echo "\t-h, --help:"
+    echo "\t\tShow usage\n"
+}
+
+while [ $# -gt 0 ]; do
+    case $1 in
+        -a|--all)
+            all=true
+            ;;
+        -l|--list)
+            list=true
+            ;;
+        -h|--help)
+            help
+            exit 0
+            ;;
+        *)
+            break
+            ;;
+    esac
+    shift
+done
+
 case $1 in
     file)
-        # change the icon of the specified file
-        # $2: file name
-        # $3: file type
-        if [[ "$2" == *@* ]]; then
-            type=$(echo $2 | cut -d '@' -f 2)
-            name=$(echo $2 | cut -d '@' -f 1)
-            icon=$(cat $DATA_DIR/fileIcons.json | awk -f $TOP_DIR/main.awk -v target="$type")
-        else
-            name=$2
-            icon=$(cat $DATA_DIR/fileIcons.json | awk -f $TOP_DIR/main.awk -v target="$2")
+        if [ $# -lt 2 ]; then
+            echo "Error: file command requires a file name"
+            exit 1
         fi
-        if [ -z $icon ]; then
-            echo "No icon found for $name"
+
+        fileName=
+
+        file=$2
+        if [[ "$file" == *@* ]]; then
+            type=$(echo $file | cut -d '@' -f 2)
+            name=$(echo $file | cut -d '@' -f 1)
         else
+            name=$file
+        fi
+        icon=$(cat $DATA_DIR/folderIcons.json | awk -v target="$type" "$main")
+        if [ -z $icon ]; then
+            echo "Error: icon not found"
+            exit 1
+        fi
+        if [ ! -f $IMAGES_DIR/$icon.png ]; then
             rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
-            fileicon -q set $name $IMAGES_DIR/$icon.png
+        fi
+        if [ -d $name ]; then
+            mv $name $name.bak
+            mkdir $name
+            cp $IMAGES_DIR/$icon.png $name
+            mv $name.bak $name
+        else
+            cp $IMAGES_DIR/$icon.png $name
         fi
         ;;
     dir)
-        # change the icon of the specified directory
-        # $2: directory name
-        # $3: directory type
-        if [[ "$2" == *@* ]]; then
-            type=$(echo $2 | cut -d '@' -f 2)
-            name=$(echo $2 | cut -d '@' -f 1)
-            icon=$(cat $DATA_DIR/folderIcons.json | awk -f $TOP_DIR/main.awk -v target="$type")
-        else
-            name=$2
-            icon=$(cat $DATA_DIR/folderIcons.json | awk -f $TOP_DIR/main.awk -v target="$2")
+        if [ $# -lt 2 ]; then
+            echo "Error: dir command requires a directory name"
+            exit 1
         fi
+
+        dir=$2
+        if [[ "$dir" == *@* ]]; then
+            type=$(echo $dir | cut -d '@' -f 2)
+            name=$(echo $dir | cut -d '@' -f 1)
+            icon=$(cat $DATA_DIR/folderIcons.json | awk -v target="$type" "$main")
+        else
+            name=$dir
+            icon=$(cat $DATA_DIR/folderIcons.json | awk -v target="$dir" "$main")
+        fi
+
         if [ -z $icon ]; then
-            echo "No icon found for $name"
+            mkdir ./$1
         else
-            rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
-            fileicon -q set $name $IMAGES_DIR/$icon.png
-        fi
-        ;;
-    conv)
-        #
-        # $2: file name or directory name
-        # $3: file type
-        if [[ "$2" == *@* ]]; then
-            type=$(echo $2 | cut -d '@' -f 2)
-            name=$(echo $2 | cut -d '@' -f 1)
-            icon=$(cat $DATA_DIR/folderIcons.json | awk -f $TOP_DIR/main.awk -v target="$type")
-        else
-            name=$2
-            icon=$(cat $DATA_DIR/folderIcons.json | awk -f $TOP_DIR/main.awk -v target="$2")
-        fi
-        if [ -z $icon ]; then
-            echo "No icon found for $name"
-        else
-            rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
-            fileicon -q set $name $IMAGES_DIR/$icon.png
+            if [ ! -f $IMAGES_DIR/$icon.png ]; then
+                rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+            fi
+            mkdir ./$name && fileicon -q set ./$name $IMAGES_DIR/$icon.png
         fi
         ;;
     make)
-        # make your own file icon
-        # $2: file type
-        # $3: file icon path or file icon url
-        if [[ "$3" == *http* ]]; then
-            curl -o $IMAGES_DIR/$2.png $3
-        else
-            rsvg-convert -h 120 $3 > $IMAGES_DIR/$2.png
+        if [ $# -lt 3 ]; then
+            echo "Error: make command requires a type name and an icon path or url"
+            exit 1
         fi
-        fileicon -q set $2 $IMAGES_DIR/$2.png
+        type=$2
+        icon=$3
+        if [ -d $type ]; then
+            echo "Error: type name already exists"
+            exit 1
+        fi
+        if [ -f $ICONS_DIR/$type.svg ]; then
+            echo "Error: type name already exists"
+            exit 1
+        fi
+        if [ -f $IMAGES_DIR/$type.png ]; then
+            echo "Error: type name already exists"
+            exit 1
+        fi
+        if [[ "$icon" == *.svg ]]; then
+            cp $icon $ICONS_DIR/$type.svg
+        else
+            wget -O $ICONS_DIR/$type.svg $icon
+        fi
+        if [ ! -f $IMAGES_DIR/$type.png ]; then
+            rsvg-convert -h 120 $ICONS_DIR/$type.svg > $IMAGES_DIR/$type.png
+        fi
+        ;;
+    conv)
+        if [ $# -lt 2 ]; then
+            echo "Error: conv command requires a directory/file name and a type"
+            exit 1
+        fi
+        file=$2
+        if [[ "$file" == *@* ]]; then
+            type=$(echo $file | cut -d '@' -f 2)
+            name=$(echo $file | cut -d '@' -f 1)
+        else
+            name=$file
+        fi
+        icon=$(cat $DATA_DIR/folderIcons.json | awk -v target="$type" "$main")
+        if [ -z $icon ]; then
+            echo "Error: icon not found"
+            exit 1
+        fi
+        if [ ! -f $IMAGES_DIR/$icon.png ]; then
+            rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+        fi
+        if [ -d $name ]; then
+            mv $name $name.bak
+            mkdir $name
+            cp $IMAGES_DIR/$icon.png $name
+            mv $name.bak $name
+        else
+            cp $IMAGES_DIR/$icon.png $name
+        fi
+        ;;
+    replace)
+        if [ $# -lt 2 ]; then
+            echo "Error: replace command requires a directory name"
+            exit 1
+        fi
+        dir=$2
+        if [ ! -d $dir ]; then
+            echo "Error: directory not found"
+            exit 1
+        fi
+        find $dir -type f -exec bash -c '
+            icon=$(cat $DATA_DIR/folderIcons.json | awk -v target="$(echo {} | cut -d "/" -f 2 | cut -d "." -f 1)" "$main")
+            if [ -z $icon ]; then
+                echo "Error: icon not found"
+                exit 1
+            fi
+            if [ ! -f $IMAGES_DIR/$icon.png ]; then
+                rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
+            fi
+            if [ -d {} ]; then
+                mv {} {}.bak
+                mkdir {}
+                cp $IMAGES_DIR/$icon.png {}
+                mv {}.bak {}
+            else
+                cp $IMAGES_DIR/$icon.png {}
+            fi
+        ' \;
         ;;
     *)
-        helpMessage
-        ;;
-esac
-
-# options processing
-case $2 in
-    -a|--all)
-        # can be used with file, dir and make commands
-        shift
-        ;;
-    -l|--list)
-        # show available icons
-        echo "Available icons:"
-        echo "    file icons:"
-        echo "        $(cat $DATA_DIR/fileIcons.json | jq -r '.[]')"
-        echo "    folder icons:"
-        echo "        $(cat $DATA_DIR/folderIcons.json | jq -r '.[]')"
-        ;;
-    -h|--help)
-        # show usage
-        helpMessage
+        echo "Error: invalid command"
+        exit 1
         ;;
 esac
