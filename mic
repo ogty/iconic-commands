@@ -58,7 +58,7 @@
 #     - [x] dir
 #     - [x] file
 #     - [ ] make
-#     - [ ] conv
+#     - [x] conv
 #     - [ ] replace
 #     - [ ] -a, --all
 #     - [ ] -l, --list
@@ -288,14 +288,7 @@ case $1 in
         if [ ! -f $IMAGES_DIR/$icon.png ]; then
             rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
         fi
-        if [ -d $name ]; then
-            mv $name $name.bak
-            mkdir $name
-            cp $IMAGES_DIR/$icon.png $name
-            mv $name.bak $name
-        else
-            cp $IMAGES_DIR/$icon.png $name
-        fi
+        fileicon -q set $name $IMAGES_DIR/$icon.png
         ;;
     replace)
         if [ $# -lt 2 ]; then
