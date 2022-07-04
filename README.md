@@ -1,7 +1,7 @@
 <h1 align="center">Material Iconic Commands</h1>
 
 <p align="center">
-  The icon data is used from <a href="https://github.com/PKief/vscode-material-icon-theme">vscode-material-icon-theme</a>.
+  The icon data is used from <a href="https://github.com/PKief/vscode-material-icon-theme">vscode-material-icon-theme</a> and <a href="https://github.com/devicons/devicon/">devicon</a>.
 </p>
 
 <div align="center">
@@ -14,7 +14,7 @@
 - [x] Creation of material iconic directories
 - [x] Conversion to material iconic files/directories
 - [ ] Creation of original icons
-- [ ] Support for free icons
+- [x] Support for free icons
 - [ ] Replace all existing folders and files with new icons
 
 ## External Commands Used
