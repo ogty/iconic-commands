@@ -1,6 +1,12 @@
 <h1 align="center">Material Iconic Commands</h1>
 
 <p align="center">
+ <img src="https://img.shields.io/github/repo-size/ogty/material-iconic-commands?style=for-the-badge" />
+ <img src="https://img.shields.io/github/directory-file-count/ogty/material-iconic-commands?style=for-the-badge" />
+ <img src="https://img.shields.io/github/license/ogty/material-iconic-commands?style=for-the-badge" />
+</p>
+
+<p align="center">
   The icon data is used from <a href="https://github.com/PKief/vscode-material-icon-theme">vscode-material-icon-theme</a> and <a href="https://github.com/devicons/devicon/">devicon</a>.
 </p>
 
