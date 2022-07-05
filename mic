@@ -38,10 +38,6 @@
 #     -h, --help:
 #             Show usage
 #
-# Information:
-#     If you have installed the Material Icon Theme as a Visual Studio Code extension,
-#     you can remove the "icons" directory from this repository.
-#
 # Note:
 #     If brew and npm are not installed, they will be installed automatically.
 #     The external commands used in this process are also installed at the same time.
@@ -67,13 +63,7 @@
 TOP_DIR=$(cd $(dirname $0);pwd)
 DATA_DIR="$TOP_DIR/data"
 IMAGES_DIR="$TOP_DIR/images"
-VSCODE_EXTENSIONS_DIR="$HOME/.vscode/extensions"
-
-if [ ! -d $VSCODE_EXTENSIONS_DIR/pkief.material-icon-theme-*/icons ]; then
-    ICONS_DIR="$TOP_DIR/icons"
-else
-    ICONS_DIR="$VSCODE_EXTENSIONS_DIR/pkief.material-icon-theme-*/icons"
-fi
+ICONS_DIR="$TOP_DIR/icons"
 
 main='
 BEGIN {
@@ -225,7 +215,7 @@ case $1 in
         fi
 
         if [ -z $icon ]; then
-            mkdir ./$1
+            mkdir ./$dir
         else
             if [ ! -f $IMAGES_DIR/$icon.png ]; then
                 rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png

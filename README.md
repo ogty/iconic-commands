@@ -30,10 +30,6 @@ $ git clone https://github.com/ogty/material-iconic-commands
 $ source ~/material-iconic-commands/setup.sh
 ```
 
-> ℹ️ About Icon Data  
-> If you have installed the Material Icon Theme as a Visual Studio Code extension,  
-> you can remove the "icons" directory from this repository.
-
 > **Note**  
 > If brew and npm are not installed, they will be installed automatically.  
 > The external commands used in this process are also installed at the same time.  
