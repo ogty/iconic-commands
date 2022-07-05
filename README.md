@@ -75,3 +75,7 @@ $ mic -l f
 $ mic -l d
 $ mic -h
 ```
+
+## 📷 Icons
+
+<img src="./icons.png" />
