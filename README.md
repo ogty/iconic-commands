@@ -23,7 +23,7 @@
 - ✅ Creation of original icons
 - 🟩 Replace all existing folders and files with new icons
 
-## 🙇‍♂️ I am using it
+## 🙇‍♂️ I am using the following
 
 - [vscode-material-icon-theme](https://github.com/PKief/vscode-material-icon-theme)
 - [devicon](https://github.com/devicons/devicon/)
