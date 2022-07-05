@@ -56,7 +56,7 @@
 # TODO:
 #     - [x] dir
 #     - [x] file
-#     - [ ] make
+#     - [x] make
 #     - [x] conv
 #     - [ ] replace
 #     - [ ] -a, --all
@@ -255,31 +255,28 @@ case $1 in
 
         type=$2
         icon=$3
-        if [[ "$icon" == http* ]]; then
-            curl -s -o $IMAGES_DIR $icon
-        else
-            rsvg-convert -h 120 $icon > $IMAGES_DIR/$type.png
-        fi
 
-        if [ -d $type ]; then
-            echo "Error: type name already exists"
-            exit 1
-        fi
-        if [ -f $ICONS_DIR/$type.svg ]; then
-            echo "Error: type name already exists"
-            exit 1
-        fi
-        if [ -f $IMAGES_DIR/$type.png ]; then
-            echo "Error: type name already exists"
-            exit 1
-        fi
-        if [[ "$icon" == *.svg ]]; then
-            cp $icon $ICONS_DIR/$type.svg
+        while [ $(cat $DATA_DIR/fileIcons.json | awk -v target="$type" "$main") ]; do
+            echo "Type already exists. Please enter a new name:"
+            read newType
+            type=$newType
+        done
+        sed -i -e "s/{/{\n    \"$type\": \"$type\",/" $DATA_DIR/fileIcons.json
+        sed -i -e "s/{/{\n    \"$type\": \"$type\",/" $DATA_DIR/folderIcons.json
+
+        iconExtension=$(echo $icon | awk -F . '{print $NF}')
+        if [[ "$icon" == http* ]]; then
+            if [[ "$iconExtension" == *svg ]]; then
+                curl -s -o $ICONS_DIR/$type.svg $icon
+            else
+                curl -s -o $IMAGES_DIR/$type.png $icon
+            fi
         else
-            wget -O $ICONS_DIR/$type.svg $icon
-        fi
-        if [ ! -f $IMAGES_DIR/$type.png ]; then
-            rsvg-convert -h 120 $ICONS_DIR/$type.svg > $IMAGES_DIR/$type.png
+            if [[ "$iconExtension" == *svg ]]; then
+                cp $icon $ICONS_DIR
+            else
+                cp $icon $IMAGES_DIR
+            fi
         fi
         ;;
     conv)

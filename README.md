@@ -20,11 +20,13 @@
 - ✅ Creation of material iconic directories
 - ✅ Conversion to material iconic files/directories
 - ✅ Support for free icons
-- 🟩 Creation of original icons
+- ✅ Creation of original icons
 - 🟩 Replace all existing folders and files with new icons
 
-## 🙇‍♂️ External Commands Used
+## 🙇‍♂️ I am using it
 
+- [vscode-material-icon-theme](https://github.com/PKief/vscode-material-icon-theme)
+- [devicon](https://github.com/devicons/devicon/)
 - [librsvg](https://wiki.gnome.org/Projects/LibRsvg)
 - [fileicon](https://www.npmjs.com/package/fileicon)
 
