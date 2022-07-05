@@ -33,7 +33,7 @@
 # Options:
 #     -a, --all:
 #             Can be used with file, dir and make commands
-#     -l, --list:
+#     -l, --list <f/d>:
 #             Show available icons
 #     -h, --help:
 #             Show usage
@@ -49,6 +49,9 @@
 #     $ mic conv foo@tmp
 #     $ mic make your-service-name your-service-log.svg
 #     $ mic make gopher https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg
+#     $ mic -l f
+#     $ mic -l d
+#     $ mic -h
 #
 # TODO:
 #     - [x] dir
@@ -57,7 +60,7 @@
 #     - [x] conv
 #     - [ ] replace
 #     - [ ] -a, --all
-#     - [ ] -l, --list
+#     - [x] -l, --list
 #     - [x] -h, --help
 
 TOP_DIR=$(cd $(dirname $0);pwd)
@@ -128,7 +131,28 @@ while [ $# -gt 0 ]; do
             all=true
             ;;
         -l|--list)
-            list=true
+            type=$2
+
+            if [ "$type" = "f" ]; then
+                echo "Available file icons:"
+                echo "======================"
+                cat $DATA_DIR/fileIcons.txt | more
+                echo
+            elif [ "$type" = "d" ]; then
+                echo "Available directory icons:"
+                echo "==========================="
+                cat $DATA_DIR/folderIcons.txt | more
+                echo
+            else
+                echo "Unknown type: $type"
+                echo "Available types: f, d"
+                echo "Usage:"
+                echo "\tmic -l <f/d>"
+                echo "Example:"
+                echo "\tmic -l f"
+                echo
+                exit 1
+            fi
             ;;
         -h|--help)
             help

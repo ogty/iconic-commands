@@ -52,7 +52,7 @@ $ mic [options] <command> [<arguments>]
 ## Options:
 
 - `-a, --all`: Can be used with file, dir and make commands
-- `-l, --list`: Show available icons
+- `-l, --list <f/d>`: Show available icons
 - `-h, --help`: Show usage
 
 ## Example
@@ -63,4 +63,7 @@ $ mic dir fundamentals_of_java@java
 $ mic conv foo@tmp
 $ mic make your-service-name your-service-logo.svg
 $ mic make gopher https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg
+$ mic -l f
+$ mic -l d
+$ mic -h
 ```
