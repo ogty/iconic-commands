@@ -41,7 +41,7 @@ $ source ~/material-iconic-commands/setup.sh
 > The external commands used in this process are also installed at the same time.  
 > You may also be asked to enter a password to change permissions.
 
-## Usage:
+## Usage
 
 ```zsh
 $ mic [options] <command> [<arguments>]
@@ -55,7 +55,7 @@ $ mic [options] <command> [<arguments>]
 - `conv <directory/file-name>@<type>`: Converte file or directory icon
 - `replace <directory-name>`: Replaces all files and directories, including the specified directory, with the appropriate icon from the extension or name.
 
-## Options:
+## Options
 
 - `-a, --all`: Can be used with file, dir and make commands
 - `-l, --list <f/d>`: Show available icons
