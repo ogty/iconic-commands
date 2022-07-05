@@ -14,21 +14,21 @@
  <img src="./sample.png" alt="sample" width="50%" />
 </div>
 
-## Feature
+## 🎈 Feature
 
-- [x] Creation of material iconic files
-- [x] Creation of material iconic directories
-- [x] Conversion to material iconic files/directories
-- [ ] Creation of original icons
-- [x] Support for free icons
-- [ ] Replace all existing folders and files with new icons
+- ✅ Creation of material iconic files
+- ✅ Creation of material iconic directories
+- ✅ Conversion to material iconic files/directories
+- ✅ Support for free icons
+- 🟩 Creation of original icons
+- 🟩 Replace all existing folders and files with new icons
 
-## External Commands Used
+## 🙇‍♂️ External Commands Used
 
 - [librsvg](https://wiki.gnome.org/Projects/LibRsvg)
 - [fileicon](https://www.npmjs.com/package/fileicon)
 
-## Setup
+## ⚙️ Setup
 
 ```zsh
 $ cd ~/
@@ -41,13 +41,13 @@ $ source ~/material-iconic-commands/setup.sh
 > The external commands used in this process are also installed at the same time.  
 > You may also be asked to enter a password to change permissions.
 
-## Usage
+## 📖 Usage
 
 ```zsh
 $ mic [options] <command> [<arguments>]
 ```
 
-## Commands
+## 🤖 Commands
 
 - `file <file-name[@<type>]>`: Change the icon of the specified file
 - `dir <directory-name[@<type>]>`: Change the icon of the specified directory
@@ -55,13 +55,13 @@ $ mic [options] <command> [<arguments>]
 - `conv <directory/file-name>@<type>`: Converte file or directory icon
 - `replace <directory-name>`: Replaces all files and directories, including the specified directory, with the appropriate icon from the extension or name.
 
-## Options
+## 🔍 Options
 
 - `-a, --all`: Can be used with file, dir and make commands
 - `-l, --list <f/d>`: Show available icons
 - `-h, --help`: Show usage
 
-## Example
+## ✏️ Example
 
 ```zsh
 $ mic file command@sh
