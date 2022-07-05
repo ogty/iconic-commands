@@ -1,20 +1,18 @@
 #!/bin/sh
 
 # =====================================================================================
-#                              Material Iconic Commands
+#                                  Iconic Commands
 # =====================================================================================
 #
 # Description:
-#     A command that allows you to change the icons of files and
-#     directories using the VSCode Material Icon Theme icon theme.
-#     You can also set your own icons.
-#     The icon data is used from "vscode-material-icon-theme".
-#     
-#     Marketplace:
-#         https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme
+#     Command to change file/folder icons from over 1000 icon designs.
+#     You can also register your own icons.
 #
+#     Repository:
+#         https://github.com/ogty/iconic-commands
+#     
 # Usage:
-#     $ mic [options] <command> [<arguments>]
+#     $ ic [options] <command> [<arguments>]
 #
 # Commands:
 #     file <file-name[@<type>]>:
@@ -44,14 +42,14 @@
 #     You may also be asked to enter a password to change permissions.
 #
 # Example:
-#     $ mic file command@sh
-#     $ mic dir fundamentals_of_java@java
-#     $ mic conv foo@tmp
-#     $ mic make your-service-name your-service-log.svg
-#     $ mic make gopher https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg
-#     $ mic -l f
-#     $ mic -l d
-#     $ mic -h
+#     $ ic file command@sh
+#     $ ic dir fundamentals_of_java@java
+#     $ ic conv foo@tmp
+#     $ ic make your-service-name your-service-log.svg
+#     $ ic make gopher https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg
+#     $ ic -l f
+#     $ ic -l d
+#     $ ic -h
 #
 # TODO:
 #     - [x] dir
@@ -101,9 +99,9 @@ function all_replacer(before, after, data) {
 '
 
 help() {
-    echo "\n\t\tmic: Material Icon Theme Icon Changer\n"
+    echo "\n\t\tic: Iconic Commands\n"
     echo "Usage:"
-    echo "\tmic [options] <command> [<arguments>]\n"
+    echo "\tic [options] <command> [<arguments>]\n"
     echo "Commands:"
     echo "\tfile <file-name[@<type>]>:"
     echo "\t\tChange the icon of the specified file"
@@ -147,9 +145,9 @@ while [ $# -gt 0 ]; do
                 echo "Unknown type: $type"
                 echo "Available types: f, d"
                 echo "Usage:"
-                echo "\tmic -l <f/d>"
+                echo "\tic -l <f/d>"
                 echo "Example:"
-                echo "\tmic -l f"
+                echo "\tic -l f"
                 echo
                 exit 1
             fi

@@ -1,4 +1,4 @@
-<h1 align="center">Material Iconic Commands</h1>
+<h1 align="center">Iconic Commands</h1>
 
 <p align="center">
  <img src="https://img.shields.io/github/repo-size/ogty/material-iconic-commands?style=for-the-badge" />
@@ -16,9 +16,9 @@
 
 ## 🎈 Feature
 
-- ✅ Creation of material iconic files
-- ✅ Creation of material iconic directories
-- ✅ Conversion to material iconic files/directories
+- ✅ Creation of iconic files
+- ✅ Creation of iconic directories
+- ✅ Conversion to iconic files/directories
 - ✅ Support for free icons
 - ✅ Creation of original icons
 - 🟩 Replace all existing folders and files with new icons
@@ -34,8 +34,8 @@
 
 ```zsh
 $ cd ~/
-$ git clone https://github.com/ogty/material-iconic-commands
-$ source ~/material-iconic-commands/setup.sh
+$ git clone https://github.com/ogty/iconic-commands
+$ source ~/iconic-commands/setup.sh
 ```
 
 > **Note**  
@@ -46,7 +46,7 @@ $ source ~/material-iconic-commands/setup.sh
 ## 📖 Usage
 
 ```zsh
-$ mic [options] <command> [<arguments>]
+$ ic [options] <command> [<arguments>]
 ```
 
 ## 🤖 Commands
@@ -66,14 +66,14 @@ $ mic [options] <command> [<arguments>]
 ## ✏️ Example
 
 ```zsh
-$ mic file command@sh
-$ mic dir fundamentals_of_java@java
-$ mic conv foo@tmp
-$ mic make your-service-name your-service-logo.svg
-$ mic make gopher https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg
-$ mic -l f
-$ mic -l d
-$ mic -h
+$ ic file command@sh
+$ ic dir fundamentals_of_java@java
+$ ic conv foo@tmp
+$ ic make your-service-name your-service-logo.svg
+$ ic make gopher https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg
+$ ic -l f
+$ ic -l d
+$ ic -h
 ```
 
 ## 📷 Icons
