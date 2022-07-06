@@ -53,6 +53,7 @@ TOP_DIR=$(cd $(dirname $0);pwd)
 DATA_DIR="$TOP_DIR/data"
 ICONS_DIR="$TOP_DIR/icons"
 IMAGES_DIR="$TOP_DIR/images"
+IGNORE_IMAGE_EXTENSIONS=("svg" "png" "jpg" "jpeg" "gif" "bmp" "ico" "tiff" "tif" "webp")
 
 # awk program to get matching icon names from fileIcons.json or folderIcons.json
 main='
@@ -340,6 +341,10 @@ case $1 in
         find . -type f | grep -v "\/\." | while read file; do
             type=$(echo $file | sed 's/.*\///')
             type=$(echo $file | sed 's/.*\.//')
+            if [[ "$IGNORE_IMAGE_EXTENSIONS" == *$type* ]]; then
+                echo $type
+                continue
+            fi
             ic conv $file@$type
         done
         ;;
