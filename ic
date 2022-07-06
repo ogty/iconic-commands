@@ -334,14 +334,14 @@ case $1 in
 
         find $dir -type d | grep -v "\/\." | while read dir; do
             type=$(echo $dir | sed 's/.*\///')
-            ic conv $dir@$type
+            ic conv $dir@$type > /dev/null 2>&1
         done
 
         find $dir -type f | grep -v "\/\." | while read file; do
             type=$(echo $file | sed 's/.*\///')
             type=$(echo $file | sed 's/.*\.//')
             if [[ ! "${IGNORE_IMAGE_EXTENSIONS[*]}" =~ "$type" ]]; then
-                ic conv $file@$type
+                ic conv $file@$type > /dev/null 2>&1
             fi
         done
         ;;
