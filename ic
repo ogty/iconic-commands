@@ -321,7 +321,6 @@ case $1 in
         ;;
     replace)
         # Convert file/folder icons using the conv command above
-        # TODO: No problem, but an error saying the icon could not be found, so this should not be displayed
 
         if [ $# -lt 2 ]; then
             echo "Error: replace command requires a directory name"
@@ -333,19 +332,17 @@ case $1 in
             exit 1
         fi
 
-        find . -type d | grep -v "\/\." | while read dir; do
+        find $dir -type d | grep -v "\/\." | while read dir; do
             type=$(echo $dir | sed 's/.*\///')
             ic conv $dir@$type
         done
 
-        find . -type f | grep -v "\/\." | while read file; do
+        find $dir -type f | grep -v "\/\." | while read file; do
             type=$(echo $file | sed 's/.*\///')
             type=$(echo $file | sed 's/.*\.//')
-            if [[ "$IGNORE_IMAGE_EXTENSIONS" == *$type* ]]; then
-                echo $type
-                continue
+            if [[ ! "${IGNORE_IMAGE_EXTENSIONS[*]}" =~ "$type" ]]; then
+                ic conv $file@$type
             fi
-            ic conv $file@$type
         done
         ;;
     *)

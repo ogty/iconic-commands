@@ -57,6 +57,19 @@ $ ic [options] <command> [<arguments>]
 - `conv <directory/file-name>@<type>`: Converte file or directory icon
 - `replace <directory-name>`: Replaces all files and directories, including the specified directory, with the appropriate icon from the extension or name.
 
+> **Note**  
+> Files with the following extensions have a preview function and their icons are not changed.
+> - svg
+> - png
+> - jpg
+> - jpeg
+> - gif
+> - bmp
+> - ico
+> - tiff
+> - tif
+> - webp
+
 ## 🔍 Options
 
 - `-a, --all`: Can be used with file, dir and make commands
@@ -76,6 +89,15 @@ $ ic -l d
 $ ic -h
 $ ic replace bar
 ```
+
+### 👀 Change the icon for this repository
+
+```zsh
+$ ic replace .
+$ ic conv ic@sh & ic conv LICENSE@cer & ic conv README.md@readme
+```
+
+![](./sample_image_after_icon_change.png)
 
 ## 📷 Icons
 
