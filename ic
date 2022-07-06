@@ -51,9 +51,10 @@
 
 TOP_DIR=$(cd $(dirname $0);pwd)
 DATA_DIR="$TOP_DIR/data"
-IMAGES_DIR="$TOP_DIR/images"
 ICONS_DIR="$TOP_DIR/icons"
+IMAGES_DIR="$TOP_DIR/images"
 
+# awk program to get matching icon names from fileIcons.json or folderIcons.json
 main='
 BEGIN {
     FS = ":";
@@ -86,6 +87,7 @@ function all_replacer(before, after, data) {
 }
 '
 
+# Function to display command usage and options
 help() {
     echo "\n\t\tic: Iconic Commands\n"
     echo "Usage:"
@@ -111,6 +113,7 @@ help() {
     echo "\t\tShow usage\n"
 }
 
+# Optional processing
 while [ $# -gt 0 ]; do
     case $1 in
         -a|--all)
@@ -151,8 +154,10 @@ while [ $# -gt 0 ]; do
     shift
 done
 
+# Command Processing
 case $1 in
     file)
+        # Raises an error if no command argument is given
         if [ $# -lt 2 ]; then
             echo "Error: file command requires a file name"
             exit 1
@@ -160,25 +165,34 @@ case $1 in
 
         file=$2
         if [[ "$file" == *@* ]]; then
-            name=$(echo $file | cut -d '@' -f 1)
-            type=$(echo $file | cut -d '@' -f 2)
+            name=$(echo $file | cut -d '@' -f 1) # file path
+            type=$(echo $file | cut -d '@' -f 2) # specified icon type 
+
+            # Obtains icon names matching the specified icon type from fileIcons.json
             icon=$(cat $DATA_DIR/fileIcons.json | awk -v target="$type" "$main")
+
+            # If there is no matching icon data, create a normal file with the touch command
             if [ -z "$icon" ]; then
                 touch ./$file
             else
+                # If no icon image has been generated, generate a new icon image.
                 if [ ! -f $IMAGES_DIR/$icon.png ]; then
                     rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
                 fi
+                # file and convert it from the default icon to a matching icon or to the icon you want to specify.
                 touch ./$name && fileicon -q set ./$name $IMAGES_DIR/$icon.png
             fi
             exit 0
         else
-            fileName=$(echo $file | awk -F . '{print $1}'| tr '[:upper:]' '[:lower:]')
-            fileExtension=$(echo $file | awk -F . '{print $2}')
+            # Processing when the @ mark is not included in the command argument
+            fileName=$(echo $file | awk -F . '{print $1}'| tr '[:upper:]' '[:lower:]') # lowercase a file name
+            fileExtension=$(echo $file | awk -F . '{print $2}') # Get file extension
         fi
 
+        # What to do if a file does not have a file extension
         if [ -z "$fileExtension" ]; then
             icon=$(cat $DATA_DIR/fileIcons.json | awk -v target="$fileName" "$main")
+
             if [ -z "$icon" ]; then
                 touch ./$file
             else
@@ -188,6 +202,7 @@ case $1 in
                 touch ./$file && fileicon -q set ./$file $IMAGES_DIR/$icon.png
             fi
         else
+            # Processing when extensions are present
             icon=$(cat $DATA_DIR/fileIcons.json | awk -v target="$fileName.$fileExtension" "$main")
             if [ -n "$icon" ]; then
                 if [ ! -f $IMAGES_DIR/$icon.png ]; then
@@ -209,6 +224,7 @@ case $1 in
         fi
         ;;
     dir)
+        # Raises an error if no command argument is given
         if [ $# -lt 2 ]; then
             echo "Error: dir command requires a directory name"
             exit 1
@@ -234,6 +250,7 @@ case $1 in
         fi
         ;;
     make)
+        # Raises an error if no command argument is given
         if [ $# -lt 3 ]; then
             echo "Error: make command requires a type name and an icon path or url"
             exit 1
@@ -242,22 +259,30 @@ case $1 in
         type=$2
         icon=$3
 
+        # Prompts the user for input until a unique icon type name is determined
         while [ $(cat $DATA_DIR/fileIcons.json | awk -v target="$type" "$main") ]; do
             echo "Type already exists. Please enter a new name:"
             read newType
             type=$newType
         done
+
+        # Writes unique icon type names to both folderIcons.json and fileIcons.json
         sed -i -e "s/{/{\n    \"$type\": \"$type\",/" $DATA_DIR/fileIcons.json
         sed -i -e "s/{/{\n    \"$type\": \"$type\",/" $DATA_DIR/folderIcons.json
 
+        # Get icon extension
         iconExtension=$(echo $icon | awk -F . '{print $NF}')
+
+        # Processing when the icon is a URL
         if [[ "$icon" == http* ]]; then
+            # If it is an svg, download it to the icons directory, otherwise download it to the images directory
             if [[ "$iconExtension" == *svg ]]; then
                 curl -s -o $ICONS_DIR/$type.svg $icon
             else
                 curl -s -o $IMAGES_DIR/$type.png $icon
             fi
         else
+            # If it is not an svg, i.e., a path, copy the data to a directory under the same conditions as the URL
             if [[ "$iconExtension" == *svg ]]; then
                 cp $icon $ICONS_DIR
             else
@@ -294,6 +319,9 @@ case $1 in
         fileicon -q set $name $IMAGES_DIR/$icon.png
         ;;
     replace)
+        # Convert file/folder icons using the conv command above
+        # TODO: No problem, but an error saying the icon could not be found, so this should not be displayed
+
         if [ $# -lt 2 ]; then
             echo "Error: replace command requires a directory name"
             exit 1
