@@ -29,8 +29,6 @@
 #             with the appropriate icon from the extension or name.
 #     
 # Options:
-#     -a, --all:
-#             Can be used with file, dir and make commands
 #     -l, --list <f/d>:
 #             Show available icons
 #     -h, --help:
@@ -50,16 +48,6 @@
 #     $ ic -l f
 #     $ ic -l d
 #     $ ic -h
-#
-# TODO:
-#     - [x] dir
-#     - [x] file
-#     - [x] make
-#     - [x] conv
-#     - [ ] replace
-#     - [ ] -a, --all
-#     - [x] -l, --list
-#     - [x] -h, --help
 
 TOP_DIR=$(cd $(dirname $0);pwd)
 DATA_DIR="$TOP_DIR/data"
@@ -315,24 +303,17 @@ case $1 in
             echo "Error: directory not found"
             exit 1
         fi
-        find $dir -type f -exec bash -c '
-            icon=$(cat $DATA_DIR/folderIcons.json | awk -v target="$(echo {} | cut -d "/" -f 2 | cut -d "." -f 1)" "$main")
-            if [ -z $icon ]; then
-                echo "Error: icon not found"
-                exit 1
-            fi
-            if [ ! -f $IMAGES_DIR/$icon.png ]; then
-                rsvg-convert -h 120 $ICONS_DIR/$icon.svg > $IMAGES_DIR/$icon.png
-            fi
-            if [ -d {} ]; then
-                mv {} {}.bak
-                mkdir {}
-                cp $IMAGES_DIR/$icon.png {}
-                mv {}.bak {}
-            else
-                cp $IMAGES_DIR/$icon.png {}
-            fi
-        ' \;
+
+        find . -type d | grep -v "\/\." | while read dir; do
+            type=$(echo $dir | sed 's/.*\///')
+            ic conv $dir@$type
+        done
+
+        find . -type f | grep -v "\/\." | while read file; do
+            type=$(echo $file | sed 's/.*\///')
+            type=$(echo $file | sed 's/.*\.//')
+            ic conv $file@$type
+        done
         ;;
     *)
         echo "Error: invalid command"

@@ -21,7 +21,7 @@
 - ✅ Conversion to iconic files/directories
 - ✅ Support for free icons
 - ✅ Creation of original icons
-- 🟩 Replace all existing folders and files with new icons
+- ✅ Replace all existing folders and files with new icons
 
 ## 🙇‍♂️ I am using the following
 
@@ -74,6 +74,7 @@ $ ic make gopher https://raw.githubusercontent.com/devicons/devicon/master/icons
 $ ic -l f
 $ ic -l d
 $ ic -h
+$ ic replace bar
 ```
 
 ## 📷 Icons
