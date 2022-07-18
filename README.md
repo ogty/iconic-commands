@@ -53,7 +53,7 @@ $ ic [options] <command> [<arguments>]
 
 - `file <file-name[@<type>]>`: Change the icon of the specified file
 - `dir <directory-name[@<type>]>`: Change the icon of the specified directory
-- `make <type-name> <icon-path | icon-url>`: Make your own file icon
+- `make <type-name> <icon-path/icon-url>`: Make your own file icon
 - `conv <directory/file-name>@<type>`: Converte file or directory icon
 - `replace <directory-name>`: Replaces all files and directories, including the specified directory, with the appropriate icon from the extension or name.
 
