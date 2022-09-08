@@ -11,7 +11,7 @@
 </p>
 
 <div align="center">
- <img src="./sample.png" alt="sample" width="50%" />
+ <img src="./sample.png" alt="sample" />
 </div>
 
 ## 🎈 Feature
