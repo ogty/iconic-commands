@@ -589,6 +589,7 @@
     "flow-typed": "folder-flow",
     "rule": "folder-rules",
     "rules": "folder-rules",
+    "rust-original": "rust-original",
     "validation": "folder-rules",
     "validations": "folder-rules",
     "validator": "folder-rules",

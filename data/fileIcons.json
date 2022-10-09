@@ -598,6 +598,7 @@
     "graphql.config.yaml": "graphql",
     "graphql.config.yml": "graphql",
     "rs": "rust",
+    "rust-original": "rust-original",
     "ron": "rust",
     "raml": "raml",
     "xaml": "xaml",
