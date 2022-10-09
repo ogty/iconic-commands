@@ -24,7 +24,9 @@
 #         https://github.com/ogty/iconic-commands
 #     
 # Usage:
-#     $ ic [options] <command> [<arguments>]
+#    ╭─ Zsh ──────────────────────────────────────────────────────────────────────────────────╮
+#    │  $ ic [options] <command> [<arguments>]                                                │
+#    ╰────────────────────────────────────────────────────────────────────────────────────────╯
 #
 # Commands:
 #     file <file-name[@<type>]>:
@@ -58,14 +60,18 @@
 #     You may also be asked to enter a password to change permissions.
 #
 # Example:
-#     $ ic file command@sh
-#     $ ic dir fundamentals_of_java@java
-#     $ ic conv foo@tmp
-#     $ ic make your-service-name your-service-log.svg
-#     $ ic make gopher https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg
-#     $ ic -l f
-#     $ ic -l d
-#     $ ic -h
+#     ╭─ Zsh ──────────────────────────────────────────────────────────────────────────────────╮
+#     │  $ ic file command@sh                                                                  │
+#     │  $ ic dir fundamentals_of_java@java                                                    │
+#     │  $ ic conv foo@tmp                                                                     │
+#     │  $ ic make your-service-name your-service-log.svg                                      │
+#     │  $ ic make gopher \                                                                    │
+#     │    https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg  │
+#     │  $ ic -l f                                                                             │
+#     │  $ ic -l d                                                                             │
+#     │  $ ic -h                                                                               │
+#     ╰────────────────────────────────────────────────────────────────────────────────────────╯
+
 
 TOP_DIR=$(cd $(dirname $0);pwd)
 DATA_DIR="$TOP_DIR/data"
